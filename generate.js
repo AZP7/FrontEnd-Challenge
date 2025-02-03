@@ -1,41 +1,54 @@
+const imageInput = document.getElementById("forImage");
+const img_upload  = document.querySelector(".img_upload");
+const buttonContainer = document.getElementById("image_tools");
 const imageToplace = document.getElementById("imagetoPlace");
-const inputImage = document.getElementById("forImage");
-const imgDisplay = document.getElementById("img_upload");
-
-inputImage.addEventListener("change", uploadImage);
-
-function uploadImage(){
-    imageToplace.innerHTML = "";
-
-    let imageResult = document.createElement("IMG");
-    let button1 = document.createElement("BUTTON");
-    let button2 = document.createElement("BUTTON");
-    let div = document.createElement("DIV");
+const parent = document.querySelector(".parent");
 
 
-    button1.textContent = "Remove Image";
-    button1.id = "remove_img";
-    button2.id = "change_img";
-    button2.textContent = "Change image";
+
+function uploadImage(e){
+
+    const file = e.target.files[0];
+    const fileLimit = 500 * 1024;
+    if(file && file.size > fileLimit){
+        fileError(imageToplace,"File size exceeds the limit of 500KB." )
+    }
+    else{
+        let ImageResult = document.createElement("IMG");
+
+        let url = URL.createObjectURL(e.target.files[0]);
+        parent.children[1].style.display = "none";
+        parent.children[2].style.display = "none";
     
-    let imgurl = URL.createObjectURL(inputImage.files[0]);
+        ImageResult.src = url;
+        imageToplace.appendChild(ImageResult);
+    
+    
+        buttonContainer.style.display = "block"
+    
+    }
 
-    imageToplace.appendChild(imageResult);
-    imageToplace.appendChild(div);
-    div.appendChild(button1);
-    div.appendChild(button2);
-
-    imageResult.src = imgurl;
-
-    button1.addEventListener("click",removeImg);
-    button1.addEventListener("click",changeImg);
 
 }
-function removeImg(e){
-    e.preventDefault();
-    imageToplace.removeChild(imageToplace.firstChild);
-}
-function changeImg(e){
-    e.preventDefault();
+
+function fileError(element, message){
+    let errormsg = document.createElement("P");
+    while (element.children.length>1){
+        element.removeChild(imageToplace.children[1]);
+    }
+    errormsg.innerHTML = message;
+    errormsg.style.color = "red";
+    element.appendChild(errormsg);
 
 }
+function removeImage(){
+    buttonContainer.style.display = "none";
+    imageToplace.children[1].style.display = "block";
+    imageToplace.children[2].style.display = "block";
+
+}
+function ChangeImage(e){
+    document.getElementById("forImage").click(); 
+}
+
+imageInput.addEventListener("change",uploadImage)

@@ -7,6 +7,7 @@ const generate_card = document.querySelector(".generate_card");
 const result = document.querySelector(".result");
 
 
+
 generateBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     let result_name ;
@@ -17,13 +18,7 @@ generateBtn.addEventListener("click",(e)=>{
 
     const file = profile.files[0];
     if(!file){
-        let errormsg = document.createElement("P");
-        while (imageToplace.children.length>1){
-            imageToplace.removeChild(imageToplace.children[1]);
-        }
-        errormsg.innerHTML = "No file selected!";
-        errormsg.style.color = "red";
-        imageToplace.appendChild(errormsg);
+        fileError(imageToplace,"No file selected");
     }
     else{
         result_profile = URL.createObjectURL(profile.files[0]);
