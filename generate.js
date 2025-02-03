@@ -23,7 +23,6 @@ function uploadImage(e){
         ImageResult.src = url;
         imageToplace.appendChild(ImageResult);
     
-    
         buttonContainer.style.display = "block"
     
     }
